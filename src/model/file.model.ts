@@ -11,8 +11,12 @@ export class FileModel {
 
     getFiles(): String[] {
         const files: String[] = [
-            "patrones.pdf",
             "contabilidad.txt",
+            "administracion.txt",
+            "comunicados.txt",
+            "contratos.txt",
+            "log.txt",
+            "notas.txt",
         ];
         return files;
     }

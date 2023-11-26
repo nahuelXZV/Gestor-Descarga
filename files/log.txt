@@ -1,0 +1,6 @@
+Archivo: contabilidad.txt, Hora: 16:17, Fecha: 26/11/2023
+Archivo: contabilidad.txt, Hora: 16:20, Fecha: 26/11/2023
+Archivo: administracion.txt, Hora: 16:42, Fecha: 26/11/2023
+Archivo: log.txt, Hora: 16:42, Fecha: 26/11/2023
+Archivo: notas.txt, Hora: 16:42, Fecha: 26/11/2023
+Archivo: log.txt, Hora: 16:42, Fecha: 26/11/2023
