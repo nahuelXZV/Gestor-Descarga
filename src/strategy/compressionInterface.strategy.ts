@@ -1,3 +1,3 @@
 export interface CompressionInterface {
-  compress(content: string): Buffer | Promise<Buffer>;
+  compress(content: Buffer, fileName: string): Buffer | Promise<Buffer>;
 }

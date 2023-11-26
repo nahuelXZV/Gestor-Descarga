@@ -20,9 +20,9 @@ export class FileView {
         return this.res.render(this.view, { files });
     }
 
-    sendData(fileName: string, compressedContent: Buffer) {
-        this.res.setHeader('Content-disposition', 'attachment; filename=' + fileName);
-        this.res.setHeader('Content-type', 'application/zip');
+    sendData(fileName: string, compressedContent: Buffer, typeCompress: string = 'zip') {
+        this.res.setHeader('Content-Type', 'application/' + typeCompress);
+        this.res.setHeader('Content-Disposition', 'attachment; filename=' + fileName);
         this.res.send(compressedContent);
     }
 

@@ -1,3 +1,3 @@
 export interface FileInterface {
-    download(fileName: string): Promise<string>;
+    download(fileName: string): Promise<Buffer>;
 }

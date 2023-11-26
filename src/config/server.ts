@@ -4,6 +4,7 @@ import * as http from 'http';
 const socketIo = require('socket.io');
 
 import { FileController } from '../controller/file.controller';
+import { TuClase } from '../prueba';
 
 interface Options {
     port: number;

@@ -4,9 +4,9 @@ export class RealFile {
     private dir: string = 'files/';
     private isFulfilled: boolean = false;
 
-    async download(fileName: string): Promise<string> {
+    async download(fileName: string): Promise<Buffer> {
         this.isFulfilled = false;
-        const content = fs.readFileSync(this.dir + fileName, 'utf-8');
+        const content = await fs.promises.readFile(this.dir + fileName);
         this.isFulfilled = true;
         return content;
     }

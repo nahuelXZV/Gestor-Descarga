@@ -1,16 +1,21 @@
-import { CompressionInterface } from "./compressionInterface.strategy";
-import * as fs from 'fs';
 import archiver from 'archiver';
+import * as fs from 'fs';
 
-export class ZipCompressionStrategy implements CompressionInterface {
+export class TuClase {
+    private dir: string = 'files/';
+    private isFulfilled: boolean = false;
 
-    async compress(content: Buffer, fileName: string): Promise<Buffer> {
+    async downloadAndCompress(fileName: string): Promise<Buffer> {
+        this.isFulfilled = false;
+
         try {
+            const content = await fs.promises.readFile(this.dir + fileName);
+
             // Crear un objeto Archiver
             const zip = archiver('zip');
 
             // Establecer el destino del archivo .zip
-            const zipFileName = 'compressed/' + fileName + '.zip';
+            const zipFileName = this.dir + fileName + '.zip';
             const output = fs.createWriteStream(zipFileName);
 
             // Manejar eventos del objeto Archiver
@@ -26,6 +31,7 @@ export class ZipCompressionStrategy implements CompressionInterface {
 
             output.on('close', () => {
                 console.log('Compresión completada.');
+                this.isFulfilled = true;
             });
 
             // Archivar el contenido
@@ -46,4 +52,6 @@ export class ZipCompressionStrategy implements CompressionInterface {
             throw error;
         }
     }
+
+    // Resto de tu clase y métodos...
 }

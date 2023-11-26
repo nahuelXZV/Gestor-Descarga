@@ -5,7 +5,7 @@ import { FileView } from '../view/file.view';
 import { FileProxy } from '../proxy/fileProxy.proxy';
 import { CompressionInterface } from '../strategy/compressionInterface.strategy';
 import { ZipCompressionStrategy } from '../strategy/zipCompression.strategy';
-import { GzipCompressionStrategy } from '../strategy/gzipCompression.strategy';
+import { TarCompressionStrategy } from '../strategy/tarCompression.strategy';
 import { ClientObserver } from '../observer/ClientObserver.observer';
 
 export interface downloadOptions {
@@ -30,13 +30,16 @@ export class FileController {
         console.log('typeCompress', typeCompress);
         console.log('fileName', fileName);
         const fileView = new FileView(req, res);
+
         const fileProxy = new FileProxy();
         const clientObserver = new ClientObserver(socket);
         const compressionStrategy = this.getStrategy(typeCompress);
         fileProxy.addObserver(clientObserver);
+
         fileProxy.download(fileName).then(async (file) => {
-            const compressedContent = await compressionStrategy.compress(file);
-            fileView.sendData(fileName, compressedContent);
+            const compressedContent = await compressionStrategy.compress(file, fileName);
+            const nameZip = fileName + '.' + typeCompress;
+            fileView.sendData(nameZip, compressedContent, typeCompress);
         });
     };
 
@@ -44,23 +47,10 @@ export class FileController {
         switch (typeCompress) {
             case 'zip':
                 return new ZipCompressionStrategy();
-            case 'gzip':
-                return new GzipCompressionStrategy();
+            case 'tar':
+                return new TarCompressionStrategy();
             default:
                 throw new Error('No existe estrategia');
         }
     }
 }
-
-// const fileProxy = new FileProxy();
-// const zipCompressionStrategy = new ZipCompressionStrategy();
-// const gzipCompressionStrategy = new GzipCompressionStrategy();
-
-// fileProxy.addObserver(clientObserver);
-
-// // Descarga de un archivo con compresión ZIP
-// fileProxy.download("patrones.pdf").then(async (file) => {
-//     // const compressedContent = await zipCompressionStrategy.compress(file);
-//     const compressedContent = await gzipCompressionStrategy.compress(file);
-//     console.log('Contenido comprimido:', compressedContent);
-// });

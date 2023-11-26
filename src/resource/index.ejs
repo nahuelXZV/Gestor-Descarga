@@ -24,10 +24,7 @@
                 <label for="compress">Selecciona el tipo de compresión</label>
                 <select name="compress" id="compress" class="bg-white border border-gray-400 rounded shadow px-2">
                     <option value="zip">zip</option>
-                    <option value="gzip">gzip</option>
                     <option value="tar">tar</option>
-                    <option value="tar.gz">tar.gz</option>
-                    <option value="tar.bz2">tar.bz2</option>
                 </select>
             </div>
         </div>
@@ -85,17 +82,17 @@
                     'Content-Type': 'application/json'
                 },
                 body: body
-            }).then(data => {
-                const file = new Blob([data], {
-                    type: 'application/zip'
+            }).then(response => response.blob())
+                .then(data => {
+                    const type = 'application/' + typeCompress;
+                    const file = new Blob([data], { type });
+                    const fileURL = URL.createObjectURL(file);
+                    const link = document.createElement('a');
+                    link.href = fileURL;
+                    link.download = fileName + '.' + typeCompress;
+                    link.click();
+                    URL.revokeObjectURL(fileURL);
                 });
-                const fileURL = URL.createObjectURL(file);
-                const link = document.createElement('a');
-                link.href = fileURL;
-                link.download = fileName + '.zip';
-                link.click();
-                URL.revokeObjectURL(fileURL);
-            })
         }
     </script>
 
