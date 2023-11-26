@@ -1,7 +1,7 @@
 import { DownloadObserver } from "./DownloadInterface.observer";
 import socketIo from 'socket.io';
 
-export class ClientObserver implements DownloadObserver {
+export class SocketObserver implements DownloadObserver {
     constructor(private socket: socketIo.Socket) { }
 
     update(progress: number) {

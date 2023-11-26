@@ -7,8 +7,12 @@ export class FileProxy implements FileInterface {
     private realFile: RealFile | null = null;
     private observers: DownloadObserver[] = [];
 
-    addObserver(observer: DownloadObserver): void {
+    suscribe(observer: DownloadObserver): void {
         this.observers.push(observer);
+    }
+
+    unSuscribe(observer: DownloadObserver): void {
+        this.observers = this.observers.filter(obs => obs !== observer);
     }
 
     async download(fileName: string): Promise<Buffer> {
