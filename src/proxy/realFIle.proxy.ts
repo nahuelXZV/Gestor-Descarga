@@ -1,6 +1,7 @@
 import fs from 'fs';
+import { FileInterface } from './fileInterface.proxy';
 
-export class RealFile {
+export class RealFile implements FileInterface {
     private dir: string = 'files/';
     private isFulfilled: boolean = false;
 

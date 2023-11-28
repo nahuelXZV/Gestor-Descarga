@@ -9,6 +9,18 @@ import { LogsObserver } from "../observer/LogsObserver.observer";
 
 export class FileModel {
 
+    private fileProxy!: FileProxy;
+    private socketObserver!: SocketObserver;
+    private logsObserver!: LogsObserver;
+    private compressContext!: CompressContext;
+    private zipCompressionStrategy!: ZipCompressionStrategy;
+    private tarCompressionStrategy!: TarCompressionStrategy;
+
+    constructor() {
+        this.zipCompressionStrategy = new ZipCompressionStrategy();
+        this.zipCompressionStrategy = new TarCompressionStrategy();
+    }
+
     getFiles(): String[] {
         const files: String[] = [
             "contabilidad.txt",
@@ -23,20 +35,20 @@ export class FileModel {
 
     async download(fileName: string, typeCompress: string, socket: Socket): Promise<Buffer> {
         // proxy
-        const fileProxy = new FileProxy();
+        this.fileProxy = new FileProxy();
         // observer
-        const socketObserver = new SocketObserver(socket);
-        const logsObserver = new LogsObserver(fileName);
+        this.socketObserver = new SocketObserver(socket);
+        this.logsObserver = new LogsObserver(fileName);
 
-        fileProxy.suscribe(socketObserver);
-        fileProxy.suscribe(logsObserver);
+        this.fileProxy.suscribe(this.socketObserver);
+        this.fileProxy.suscribe(this.logsObserver);
 
         // strategy
-        const compressContext = new CompressContext();
-        compressContext.setStrategy(this.getStrategy(typeCompress));
+        this.compressContext = new CompressContext();
+        this.compressContext.setStrategy(this.getStrategy(typeCompress));
 
-        const file = await fileProxy.download(fileName);
-        const compressedContent = await compressContext.compress(file, fileName);
+        const file = await this.fileProxy.download(fileName);
+        const compressedContent = await this.compressContext.compress(file, fileName);
         return compressedContent;
     }
 
